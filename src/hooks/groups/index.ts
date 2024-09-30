@@ -1,17 +1,15 @@
 "use client"
 import {
-  onAddCustomDomain,
   onGetAllGroupMembers,
   onGetAllUserMessages,
-  onGetDomainConfig,
   onGetExploreGroup,
   onGetGroupInfo,
   onSearchGroups,
   onSendMessage,
   onUpDateGroupSettings,
-  onUpdateGroupGallery,
+  onUpdateGroupGallery
 } from "@/actions/groups"
-import { AddCustomDomainSchema } from "@/components/forms/domain/schema"
+// import { AddCustomDomainSchema } from "@/components/forms/domain/schema"
 import { GroupSettingsSchema } from "@/components/forms/group-settings/schema"
 import { SendNewMessageSchema } from "@/components/forms/huddles/schema"
 import { UpdateGallerySchema } from "@/components/forms/media-gallery/schema"
@@ -30,7 +28,7 @@ import {
 } from "@/redux/slices/search-slice"
 import { AppDispatch } from "@/redux/store"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
 import { JSONContent } from "novel"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
@@ -368,16 +366,16 @@ export const useGroupAbout = (
   const mediaType = validateURLString(currentMedia)
   const [activeMedia, setActiveMedia] = useState<
     | {
-        url: string | undefined
-        type: string
-      }
+      url: string | undefined
+      type: string
+    }
     | undefined
   >(
     mediaType.type === "IMAGE"
       ? {
-          url: currentMedia,
-          type: mediaType.type,
-        }
+        url: currentMedia,
+        type: mediaType.type,
+      }
       : { ...mediaType },
   )
 
@@ -664,46 +662,46 @@ export const useSendMessage = (recieverId: string) => {
   return { onSendNewMessage, register }
 }
 
-export const useCustomDomain = (groupid: string) => {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    reset,
-  } = useForm<z.infer<typeof AddCustomDomainSchema>>({
-    resolver: zodResolver(AddCustomDomainSchema),
-  })
+// export const useCustomDomain = (groupid: string) => {
+//   const {
+//     handleSubmit,
+//     register,
+//     formState: { errors },
+//     reset,
+//   } = useForm<z.infer<typeof AddCustomDomainSchema>>({
+//     resolver: zodResolver(AddCustomDomainSchema),
+//   })
 
-  const client = useQueryClient()
+//   const client = useQueryClient()
 
-  const { data } = useQuery({
-    queryKey: ["domain-config"],
-    queryFn: () => onGetDomainConfig(groupid),
-  })
+//   const { data } = useQuery({
+//     queryKey: ["domain-config"],
+//     queryFn: () => onGetDomainConfig(groupid),
+//   })
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: { domain: string }) =>
-      onAddCustomDomain(groupid, data.domain),
-    onMutate: reset,
-    onSuccess: (data) => {
-      return toast(data.status === 200 ? "Success" : "Error", {
-        description: data.message,
-      })
-    },
-    onSettled: async () => {
-      return await client.invalidateQueries({
-        queryKey: ["domain-config"],
-      })
-    },
-  })
+//   const { mutate, isPending } = useMutation({
+//     mutationFn: (data: { domain: string }) =>
+//       onAddCustomDomain(groupid, data.domain),
+//     onMutate: reset,
+//     onSuccess: (data) => {
+//       return toast(data.status === 200 ? "Success" : "Error", {
+//         description: data.message,
+//       })
+//     },
+//     onSettled: async () => {
+//       return await client.invalidateQueries({
+//         queryKey: ["domain-config"],
+//       })
+//     },
+//   })
 
-  const onAddDomain = handleSubmit(async (values) => mutate(values))
+//   const onAddDomain = handleSubmit(async (values) => mutate(values))
 
-  return {
-    onAddDomain,
-    isPending,
-    register,
-    errors,
-    data,
-  }
-}
+//   return {
+//     onAddDomain,
+//     isPending,
+//     register,
+//     errors,
+//     data,
+//   }
+// }
