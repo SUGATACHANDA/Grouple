@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { useCreateModule } from "@/hooks/courses"
 import { Logout, Settings } from "@/icons"
 import { supabaseClient } from "@/lib/utils"
 import { onOffline } from "@/redux/slices/online-member-slice"
@@ -13,11 +14,18 @@ import { DropDown } from "../drop-down"
 
 type UserWidgetProps = {
   image: string
-  groupid?: string
+  groupid: string
   userid?: string
+  courseid: string
 }
 
-export const UserAvatar = ({ image, groupid, userid }: UserWidgetProps) => {
+export const UserAvatar = ({ image, groupid, userid, courseid }: UserWidgetProps) => {
+
+  const { data } = useCreateModule(
+    groupid,
+    courseid
+  )
+
   const { signOut } = useClerk()
 
   const untrackPresence = async () => {
@@ -32,6 +40,7 @@ export const UserAvatar = ({ image, groupid, userid }: UserWidgetProps) => {
     signOut({ redirectUrl: "/" })
   }
 
+
   return (
     <DropDown
       title="Account"
@@ -42,9 +51,9 @@ export const UserAvatar = ({ image, groupid, userid }: UserWidgetProps) => {
         </Avatar>
       }
     >
-      <Link href={`/group/${groupid}/settings`} className="flex gap-x-2 px-2">
+      {!data?.groupOwner && (<Link href={`/group/${groupid}/settings`} className="flex gap-x-2 px-2">
         <Settings /> Settings
-      </Link>
+      </Link>)}
       <Button
         onClick={onLogout}
         variant="ghost"
