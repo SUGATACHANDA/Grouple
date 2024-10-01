@@ -5,7 +5,7 @@ import { UserAvatar } from "./user"
 
 type UserWidgetProps = {
   image: string
-  groupid: string
+  groupid?: string
   userid?: string
 }
 
