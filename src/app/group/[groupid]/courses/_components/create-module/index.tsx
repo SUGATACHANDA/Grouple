@@ -28,7 +28,7 @@ export const CreateCourseModule = ({
       <div className="flex justify-end">
         <PlusCircle
           onClick={onCreateModule}
-          className="text-themeGray cursor-pointer hover:text-themeTextGray/60"
+          className="text-white cursor-pointer hover:text-themeTextGray/60"
         />
       </div>
       {variables && isPending && (
