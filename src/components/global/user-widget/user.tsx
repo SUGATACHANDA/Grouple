@@ -16,14 +16,14 @@ type UserWidgetProps = {
   image: string
   groupid: string
   userid?: string
-  courseid: string
+  courseid?: string
 }
 
 export const UserAvatar = ({ image, groupid, userid, courseid }: UserWidgetProps) => {
 
   const { data } = useCreateModule(
     groupid,
-    courseid
+    courseid!
   )
 
   const { signOut } = useClerk()

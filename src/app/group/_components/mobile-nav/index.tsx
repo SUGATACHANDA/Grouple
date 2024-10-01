@@ -20,7 +20,7 @@ const MobileNav = async ({ groupid }: Props) => {
       <Link href={`/group/${groupid}/messages`}>
         <Message className="h-7 w-7" />
       </Link>
-      <UserAvatar image={user?.imageUrl!} groupid={groupid} />
+      <UserAvatar image={user?.imageUrl!} groupid={groupid} courseid={""} />
     </div>
   )
 }
